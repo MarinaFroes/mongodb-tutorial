@@ -4,6 +4,7 @@ const Company = require("../models/Company")
 let company;
 
 beforeAll(() => {
+  // Connect to mongodb instance once before all tests run
   mongoose.Promise = global.Promise
   mongoose.connect('mongodb://localhost/taxi-aggregator', {
     useNewUrlParser: true,
@@ -12,16 +13,19 @@ beforeAll(() => {
 })
 
 beforeEach(async () => {
+  // Create a company before each test
   company = new Company()
   company.name = 'First Company'
   company = await company.save()
 })
 
 afterEach(async () => {
+  // Clean up database to make it work for the next tests
   await Company.deleteMany({})
 })
 
 afterAll(done => {
+  // Disconnect from mongodb
   mongoose.disconnect(done)
 })
 
