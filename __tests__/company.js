@@ -9,6 +9,14 @@ beforeAll(() => {
   })
 })
 
+beforeEach(() => {
+
+})
+
+afterEach(async () => {
+  await Company.deleteMany({})
+})
+
 afterAll(done => {
   mongoose.disconnect(done)
 })
@@ -19,5 +27,8 @@ describe('company tests', () => {
     let company = new Company()
     company.name = 'First Company'
     company = await company.save()
+
+    const count = await Company.countDocuments()
+    expect(count).toBe(1)
   })
 })
