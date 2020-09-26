@@ -1,0 +1,17 @@
+{
+  "name": "taxi-aggregator",
+  "version": "1.0.0",
+  "description": "mongodb tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand --watchAll"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.10.7"
+  },
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}
