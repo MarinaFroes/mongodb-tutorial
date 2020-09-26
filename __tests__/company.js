@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
-const Company = require("../models/Company")
+const mongoose = require('mongoose')
+const Company = require('../models/Company')
 
-let company;
+let company
 
 beforeAll(() => {
   // Connect to mongodb instance once before all tests run
