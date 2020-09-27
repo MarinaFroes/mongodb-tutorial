@@ -33,4 +33,38 @@ describe('mongoose features', () => {
       expect(err.message).toBe('company validation failed: name: Path `name` is required.')
     }
   })
+
+  test('custom validation simple', async () => {
+    try {
+      let taxi = new Taxi()
+      taxi.brand = 'Toyota'
+      taxi.model = 'Yaris'
+      taxi.year = 2015
+      taxi.owner = {
+        name: 'Driver 1',
+        experience: 15
+      }
+      taxi = await taxi.save()
+    } catch (err) {
+      console.log(err.message)
+      expect(err.message).toBe('taxi validation failed: brand: Brand is required')
+    }
+  })
+
+  test('custom validation advanced', async () => {
+    try {
+      let taxi = new Taxi()
+      taxi.brand = 'Toyota'
+      taxi.model = 'Yaris'
+      taxi.year = 111
+      taxi.owner = {
+        name: 'Driver 1',
+        experience: 15
+      }
+      taxi = await taxi.save()
+    } catch (err) {
+      console.log(err.message)
+      expect(err.message).toBe('taxi validation failed: year: 111 is not a valid year')
+    }
+  })
 })

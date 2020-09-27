@@ -15,17 +15,21 @@ const OwnerSchema = new Schema({
 const TaxiSchema = new Schema({
   brand: {
     type: String,
-    required: true
+    required: [true, 'Brand is required']
   },
   model: {
     type: String,
-    required: true
+    required: [true, 'Model is required']
   },
   year: {
     type: Number,
-    required: true
+    required: true,
+    validate: {
+      validator: v => /^[0-9]{4}$/.test(v),
+      message: props => `${props.value} is not a valid year`
+    }
   },
   owner: OwnerSchema
 })
 
-module.exports = mongoose.model("taxi", TaxiSchema)
+module.exports = mongoose.model('taxi', TaxiSchema)
