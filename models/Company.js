@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Taxi = require('./Taxi')
 const Schema = mongoose.Schema
 
 const CompanySchema = new Schema({
@@ -28,6 +29,13 @@ CompanySchema.post('save', doc => {
 CompanySchema.pre('save', function (next) {
   // sanitize name before saving
   this.name = this.name.replace(/[^a-zA-Z0-9 ]/g, '')
+  next()
+})
+
+// pre remove middleware
+CompanySchema.pre('remove', async function (next) {
+  // delete company's taxis before removing company
+  await Taxi.deleteMany({ _id: { $in: this.taxis } })
   next()
 })
 
