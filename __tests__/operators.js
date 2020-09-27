@@ -100,4 +100,26 @@ describe('mongo operators tests', () => {
 
     expect(readTaxiOr.length).toBe(1)
   })
+
+  //  update operator
+  test('$inc', async () => {
+    let taxi = new Taxi()
+    taxi.brand = 'Toyota'
+    taxi.model = 'Yaris'
+    taxi.year = 2015
+    taxi.owner = {
+      name: 'Driver 1',
+      experience: 5
+    }
+    await taxi.save()
+
+    // Update the year by adding 2 to the current year
+    await Taxi.updateOne(
+      { _id: taxi.id },
+      { $inc: { year: 2 }}
+    )
+
+    const updatedTaxi = await Taxi.findById(taxi.id)
+    expect(updatedTaxi.year).toBe(2017)
+  })
 })
