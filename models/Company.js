@@ -6,13 +6,13 @@ const CompanySchema = new Schema({
     type: String,
     required: true
   },
-  taxies: [{
+  taxis: [{
     type: Schema.Types.ObjectId,
     ref: 'taxi'
   }]
   /** If we wanted to have a subdocument 
    * instead of a reference
-  taxies: [TaxiSchema]
+  taxis: [TaxiSchema]
    */
 })
 
