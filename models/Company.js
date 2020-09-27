@@ -16,4 +16,19 @@ const CompanySchema = new Schema({
    */
 })
 
+// post save middleware
+CompanySchema.post('save', doc => {
+  // throw error if name equals 'throws error name'
+  if (doc.name === 'throw error name') {
+    throw new Error('New Test Error')
+  }
+})
+
+// pre save middleware
+CompanySchema.pre('save', function (next) {
+  // sanitize name before saving
+  this.name = this.name.replace(/[^a-zA-Z0-9 ]/g, '')
+  next()
+})
+
 module.exports = mongoose.model('company', CompanySchema)
