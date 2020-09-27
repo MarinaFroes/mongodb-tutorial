@@ -46,4 +46,26 @@ describe('mongo operators tests', () => {
 
     expect(readTaxis.length).toBe(3)
   })
+
+  test('$in', async () => {
+    for (let i = 1; i <= 5; i++){
+      let taxi = new Taxi()
+      taxi.brand = 'Toyota'
+      taxi.model = 'Yaris'
+      taxi.year = 2015 + i
+      taxi.owner = {
+        name: `Driver ${i}`,
+        experience: 5 * i
+      }
+      await taxi.save()
+    }
+
+    const taxis = await Taxi.find({
+      'owner.experience': {
+        $in: [ 5, 15, 25, 30 ]
+      }
+    })
+
+    expect(taxis.length).toBe(3)
+  })
 })

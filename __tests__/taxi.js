@@ -70,7 +70,7 @@ describe('taxi tests', () => {
     company = await company.save()
 
     const readCompany = await Company.findById(company.id).populate('taxis')
-    console.log(readCompany)
+    // console.log(readCompany)
 
     expect(readCompany.taxis[0].model).toBe('Yaris')
     expect(readCompany.taxis[1].model).toBe('Class E')
