@@ -63,8 +63,19 @@ describe('mongoose features', () => {
       }
       taxi = await taxi.save()
     } catch (err) {
-      console.log(err.message)
+      // console.log(err.message)
       expect(err.message).toBe('taxi validation failed: year: 111 is not a valid year')
     }
   })
+
+  test('post save middleware', async () => {
+    try {
+      let company = new Company()
+      company.name = 'throw error name'
+      await company.save()
+    } catch (err) {
+      expect(err.message).toBe('New Test Error')
+    }
+  })
+
 })
