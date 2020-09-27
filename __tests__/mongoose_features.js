@@ -78,4 +78,12 @@ describe('mongoose features', () => {
     }
   })
 
+  test('pre save middleware', async () => {
+    let company = new Company()
+    company.name = 'abc`s test#s'
+    await company.save()
+
+    const readCompany = await Company.findOne()
+    expect(readCompany.name).toBe('abcs tests')
+  })
 })
