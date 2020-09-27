@@ -86,4 +86,44 @@ describe('mongoose features', () => {
     const readCompany = await Company.findOne()
     expect(readCompany.name).toBe('abcs tests')
   })
+
+  test('pre remove middleware', async () => {
+    let company = new Company()
+    company.name = 'First Company'
+    company = await company.save()
+
+    let taxi1 = new Taxi()
+    taxi1.brand = 'Toyota'
+    taxi1.model = 'Yaris'
+    taxi1.year = 2015
+    taxi1.owner = {
+      name: 'Driver 1',
+      experience: 15
+    }
+    taxi1 = await taxi1.save()
+
+    let taxi2 = new Taxi()
+    taxi2.brand = 'Benz'
+    taxi2.model = 'Class E'
+    taxi2.year = 2018
+    taxi2.owner = {
+      name: 'Driver 2',
+      experience: 7
+    }
+    taxi2 = await taxi2.save()
+
+    company.taxis = [taxi1.id, taxi2.id]
+    company = await company.save()
+
+    const taxiCount = await Taxi.countDocuments()
+    expect(taxiCount).toBe(2)
+
+    await company.delete()
+
+    const newTaxiCount = await Taxi.countDocuments()
+    expect(newTaxiCount).toBe(0)
+
+    const companyCount = await Company.countDocuments()
+    expect(companyCount).toBe(0)
+  })
 })
