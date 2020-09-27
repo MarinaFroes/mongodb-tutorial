@@ -24,7 +24,7 @@ afterAll(done => {
 })
 
 describe('mongo operators tests', () => {
-
+  // $gt and $lt - comparison operators
   test('$gt and $lt', async () => {
     for (let i = 1; i <= 5; i++){
       let taxi = new Taxi()
@@ -47,6 +47,7 @@ describe('mongo operators tests', () => {
     expect(readTaxis.length).toBe(3)
   })
 
+  // $in - comparison operator
   test('$in', async () => {
     for (let i = 1; i <= 5; i++){
       let taxi = new Taxi()
@@ -67,5 +68,36 @@ describe('mongo operators tests', () => {
     })
 
     expect(taxis.length).toBe(3)
+  })
+
+  // $and and $or - logical operators
+  test('$and and $or', async () => {
+    let taxi = new Taxi()
+    taxi.brand = 'Toyota'
+    taxi.model = 'Yaris'
+    taxi.year = 2015
+    taxi.owner = {
+      name: 'Driver 1',
+      experience: 5
+    }
+    await taxi.save()
+
+    const readTaxiAnd = await Taxi.find({
+      $and: [
+        { brand: 'Toyota' },
+        { 'owner.experience': 6 }
+      ]
+    })
+
+    expect(readTaxiAnd.length).toBe(0)
+
+    const readTaxiOr = await Taxi.find({
+      $or: [
+        { brand: 'Toyota' },
+        { 'owner.experience': 6}
+      ]
+    })
+
+    expect(readTaxiOr.length).toBe(1)
   })
 })
