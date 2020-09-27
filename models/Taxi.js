@@ -1,6 +1,17 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const PointSchema = new Schema({
+  type: {
+    type: String,
+    default: 'Point'
+  },
+  coordinates: {
+    type: [Number],
+    index: '2dsphere'
+  } // [lng, lat] - longitude first
+})
+
 const OwnerSchema = new Schema({
   name: {
     type: String,
@@ -29,7 +40,8 @@ const TaxiSchema = new Schema({
       message: props => `${props.value} is not a valid year`
     }
   },
-  owner: OwnerSchema
+  owner: OwnerSchema,
+  geometry: PointSchema
 })
 
 module.exports = mongoose.model('taxi', TaxiSchema)
